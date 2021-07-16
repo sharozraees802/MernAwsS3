@@ -1,10 +1,8 @@
-const { Router } = require('express')
-const { uploadroute } = require('./uploadfile')
+const {Router} = require('express')
+const {uploadRoute} = require('./uploadFile');
 
-const mainroute = Router()
-
-mainroute.use(uploadroute)
-
-module.exports = mainroute
+const mainRoute = Router()
+mainRoute.use(uploadRoute)
 
 
+module.exports = mainRoute

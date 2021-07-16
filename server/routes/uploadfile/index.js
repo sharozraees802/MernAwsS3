@@ -1,48 +1,39 @@
-const { Router } = require('express')
+const { Router } = require("express")
+const { bucketName, myBucket } = require('../../config')
 
-const { bucketname, myBucket } = require('../../config')
 
-const uploadroute = Router();
+const uploadRoute = Router();
 
-uploadroute.post('/uploadfile', (req, res) => {
+uploadRoute.post('/uploadFile', (req, res) => {
 
-    let filename = Object.keys(req.files)
-    filename.map(sname =>{console.log({[sname]:req.files[sname]})})
-
-    let file = req.files.file1
-
+    let filesName = Object.keys(req.files)
+    filesName.map(singlename =>{
+        console.log({[singlename]:req.files[singlename]});
+    })
+    let file = req.files.file1;
+    // Setting up S3 upload parameters
     const params = {
-        Bucket: bucketname,
+        Bucket: bucketName,
         Key: file.name,
         Tagging: "public=yes",
         Body: file.data
-
-    }
-
-    myBucket.upload(params, (err, data) => {
-
+    };
+    // Uploading files to the bucket
+    myBucket.upload(params, function (err, data) {
         if (err) {
             throw err;
         }
-
         res.send({
-
             status: true,
-            message: 'File Is Uploaded',
+            message: 'File is uploaded',
             data: {
                 name: file.name,
                 size: file.data.length
             },
             s3: data
-
-
-        })
-
-    })
+        });
+    });
 
 })
 
-module.exports = { uploadroute }
-
-
-
+module.exports = { uploadRoute }
