@@ -13,6 +13,11 @@ app.use(cors())
 app.use(fileUpload());
 app.use('/api',routes);
 
+  app.use(express.static("client/build"));
+  const path = require("path");
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
 
 //start app 
 app.listen(PORT,()=>console.log(`🚀 S3 Server is Running http://localhost:${PORT}/`))
