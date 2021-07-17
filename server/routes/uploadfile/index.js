@@ -5,12 +5,13 @@ const { bucketName, myBucket } = require('../../config')
 const uploadRoute = Router();
 
 uploadRoute.post('/uploadFile', (req, res) => {
-
+    console.log(req.files);
+    console.log(req.body);
     let filesName = Object.keys(req.files)
     filesName.map(singlename =>{
         console.log({[singlename]:req.files[singlename]});
     })
-    let file = req.files.file1;
+    let file = req.files.file;
     // Setting up S3 upload parameters
     const params = {
         Bucket: bucketName,

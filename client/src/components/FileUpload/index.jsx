@@ -3,19 +3,33 @@ import { Form } from 'react-bootstrap'
 import axios from 'axios'
 
 const Index = () => {
+
+    const [fileUrl, setFileUrl] = useState("")
     const [file, setFile] = useState("")
     useEffect(() => {
-        let data = {
-             files:file.name
-        }
+        const data = new FormData();
+        data.append("file", file);
+
         if (file) {
-            console.log("file:",file)
-        axios.post('http://localhost:5000/api/uploadFile', { file1:data},{ Headers: { "Content-Type": "application/json"}})
-        .then((r) => console.log(r)).catch(e => console.log(e))
-        setFile("")
+            console.log("file:", file)
+            axios(
+                {
+                    url: 'http://localhost:5000/api/uploadFile',
+                    method: "post",
+                    data,
+                    headers: { "Content-Type": "application/json" }
+                }
+            ).then((r) => {
+                console.log(r)
+                 console.log(r.data.s3.Location);
+                console.log(r.data.s3);
+                setFileUrl(r.data.s3.Location)
+                
+                }).catch(e => console.log(e))
+            setFile("")
         }
 
-        
+
 
     }, [file])
     return (
@@ -24,6 +38,11 @@ const Index = () => {
 
                 <Form.Control type="file" size="lg" onChange={(e) => setFile(e.target.files[0])} />
             </Form.Group>
+            {fileUrl && (
+                <div>
+                    <img src={fileUrl} alt="myimg" />
+                </div>)
+            }
         </center>
 
     )
