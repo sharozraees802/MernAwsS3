@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const {uploadRoute} = require('./uploadFile');
+const {uploadRoute} = require('./uploadFile/index.js');
 
 const mainRoute = Router()
 mainRoute.use(uploadRoute)

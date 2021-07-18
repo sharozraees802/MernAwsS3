@@ -1,5 +1,5 @@
 const { Router } = require("express")
-const { bucketName, myBucket } = require('../../config')
+const { bucketName, myBucket } = require('../../config/index.js')
 
 
 const uploadRoute = Router();
